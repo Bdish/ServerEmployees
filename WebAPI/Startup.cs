@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL;
+using DAL.Entity;
+using DAL.Repository.Implementations;
+using DAL.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace PersonnelDocuments
+namespace WebAPI
 {
     public class Startup
     {
@@ -26,6 +31,11 @@ namespace PersonnelDocuments
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddTransient<DbContext, Context>();           
+
+            services.AddTransient<IGenericRepository<Employee>, GenericRepository<Employee>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
